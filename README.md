@@ -1,19 +1,20 @@
-= flashbench -- identify characteristics of flash media =
+# `flashbench` - identify characteristics of flash media
 
 This is the tool used to identify the properties of
 SD cards and other media for the Linaro flash memory
-survey at [1]. The latest version should be available
-at [2]. Please also check out the article on lwn.net [3].
+survey at \[[1]\]. The latest version should be available
+at \[[2]\]. Please also check out the article on lwn.net \[[3]\].
 
 A short introduction to the most useful commands follows.
 
-== Guess erase block and page sizes ==
+## Guess erase block and page sizes
 
-''flashbench -a <device>''
+`flashbench -a <device>`
 
 This is a simple read-only test doing small reads
 across boundaries of various sizes. Example:
 
+```
 $ sudo ./flashbench -a /dev/mmcblk0  --blocksize=1024
 align 134217728 pre 735µs       on 1.08ms       post 780µs      diff 324µs
 align 67108864  pre 736µs       on 1.05ms       post 763µs      diff 300µs
@@ -32,6 +33,7 @@ align 16384     pre 745µs       on 911µs        post 781µs      diff 148µs
 align 8192      pre 785µs       on 808µs        post 725µs      diff 53.3µs
 align 4096      pre 784µs       on 788µs        post 779µs      diff 5.85µs
 align 2048      pre 787µs       on 793µs        post 789µs      diff 4.65µs
+```
 
 This shows the access times to do two 1024 byte reads around
 the boundaries of power-of-two aligned blocks. Reading at
@@ -64,19 +66,20 @@ Also, cards that were never fully written may show a different
 behaviour because access times on pre-erased segments are different
 from those that have been written.
 
-== Create a scatter plot of access times ==
+## Create a scatter plot of access times
 
-''flashbench -s <device> --scatter-order=<n> --scatter-span=<m> -o <file>''
+`flashbench -s <device> --scatter-order=<n> --scatter-span=<m> -o <file>`
 
 Writes a scatter plot into a file that can be used as input
-for a ''gnuplot -p -e 'plot "file"' ''
+for a `gnuplot -p -e 'plot "file"'`
 
-== Finding the number of open erase blocks ==
+## Finding the number of open erase blocks
 
-''flashbench --open-au <device> --open-au-nr=<nr> --erasesize=<size> [--random]''
+`flashbench --open-au <device> --open-au-nr=<nr> --erasesize=<size> [--random]`
 
 Example:
 
+```
 $ sudo ./flashbench -O --erasesize=$[4 * 1024 * 1024] \
 	--blocksize=$[256 * 1024] /dev/mmcblk0  --open-au-nr=2
 4MiB    8.79M/s
@@ -84,6 +87,9 @@ $ sudo ./flashbench -O --erasesize=$[4 * 1024 * 1024] \
 1MiB    6.87M/s
 512KiB  6.39M/s
 256KiB  6.27M/s
+```
+
+```
 $ sudo ./flashbench -O --erasesize=$[4 * 1024 * 1024] \
 	--blocksize=$[256 * 1024] /dev/mmcblk0  --open-au-nr=3
 4MiB    7.75M/s
@@ -91,23 +97,24 @@ $ sudo ./flashbench -O --erasesize=$[4 * 1024 * 1024] \
 1MiB    3.24M/s
 512KiB  1.76M/s
 256KiB  912K/s
+```
 
 In this case, trying 2 open AUs shows fast accesses for small
 block sizes, but trying 3 open AUs is much slower, and degrades
 further at smaller sizes.
 
 Try varying numbers until hitting the cut-off point.
-For cards that are fast when using --random, this will find
+For cards that are fast when using `--random`, this will find
 the cut-off more reliably.
 
 Some cards can do more open segments in linear mode than they
 can in random mode.
 
-== References ==
+## References
 
-[1] https://web.archive.org/web/20181027222214/https://wiki.linaro.org/WorkingGroups/KernelArchived/Projects/FlashCardSurvey
-[2] https://git.linaro.org/people/arnd/flashbench.git
-[3] https://lwn.net/Articles/428584/
+[1]: https://web.archive.org/web/20181027222214/https://wiki.linaro.org/WorkingGroups/KernelArchived/Projects/FlashCardSurvey
+[2]: https://git.linaro.org/people/arnd/flashbench.git
+[3]: https://lwn.net/Articles/428584/
 
 Feel free to reach the author by email for any questions
 about the latest version, Arnd Bergmann <arnd.bergmann@linaro.org>,
