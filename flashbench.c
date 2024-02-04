@@ -585,21 +585,25 @@ static int try_find_fat(struct device *dev, unsigned int erasesize,
 static void print_help(const char *name)
 {
 	printf("%s [OPTION]... [DEVICE]\n", name);
-	printf("run tests on DEVICE, pointing to a flash storage medium.\n\n");
-	printf("-o, --out=FILE		write output to FILE instead of stdout\n");
-	printf("-s, --scatter		run scatter read test\n");
-	printf("    --scatter-order=N 	scatter across 2^N blocks (default:9)\n");
-	printf("    --scatter-span=N 	span each write across N blocks (default:1)\n");
-	printf("-f, --find-fat		analyse first few erase blocks\n");
-	printf("    --fat-nr=N		look through first N erase blocks (default:6)\n");
-	printf("-O, --open-au		find number of open erase blocks\n");
-	printf("    --open-au-nr=N 	try N open erase blocks (default:2)\n");
-	printf("    --offset=N  	start at position N\n");
-	printf("-r, --random		use pseudorandom access with erase block\n");
-	printf("-v, --verbose		increase verbosity of output\n");
-	printf("-c, --count=N		run each test N times (default:8)\n");
-	printf("-b, --blocksize=N 	use a blocksize of N (default:16K)\n");
-	printf("-e, --erasesize=N 	use a eraseblock size of N (default:4M)\n");
+	printf(
+"\n\
+run tests on DEVICE, pointing to a flash storage medium.\n\
+\n\
+-o, --out=FILE         write output to FILE instead of stdout\n\
+-s, --scatter          run scatter read test\n\
+    --scatter-order=N  scatter across 2^N blocks         (default:9)\n\
+    --scatter-span=N   span each write across N blocks   (default:1)\n\
+-f, --find-fat         analyse first few erase blocks\n\
+    --fat-nr=N         look through first N erase blocks (default:6)\n\
+-O, --open-au          find number of open erase blocks\n\
+    --open-au-nr=N     try N open erase blocks           (default:2)\n\
+    --offset=N         start at position N\n\
+-r, --random           use pseudorandom access with erase block\n\
+-v, --verbose          increase verbosity of output\n\
+-c, --count=N          run each test N times             (default:8)\n\
+-b, --blocksize=N      use a blocksize of N            (default:16K)\n\
+-e, --erasesize=N      use a eraseblock size of N       (default:4M)\n\
+");
 }
 
 struct arguments {
