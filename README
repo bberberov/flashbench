@@ -105,9 +105,9 @@ can in random mode.
 
 == References ==
 
-[1] https://wiki.linaro.org/WorkingGroups/KernelArchived/Projects/FlashCardSurvey
-[2] git clone git://git.linaro.org/people/arnd/flashbench.git
-[3] http://lwn.net/Articles/428584
+[1] https://web.archive.org/web/20181027222214/https://wiki.linaro.org/WorkingGroups/KernelArchived/Projects/FlashCardSurvey
+[2] https://git.linaro.org/people/arnd/flashbench.git
+[3] https://lwn.net/Articles/428584/
 
 Feel free to reach the author by email for any questions
 about the latest version, Arnd Bergmann <arnd.bergmann@linaro.org>,
