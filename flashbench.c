@@ -593,11 +593,15 @@ run tests on DEVICE, pointing to a flash storage medium.\n\
 -s, --scatter          run scatter read test\n\
     --scatter-order=N  scatter across 2^N blocks         (default:9)\n\
     --scatter-span=N   span each write across N blocks   (default:1)\n\
+-a, --align            run align read test\n\
+-i, --interval\n\
+    --interval-order=N\n\
 -f, --find-fat         analyse first few erase blocks\n\
     --fat-nr=N         look through first N erase blocks (default:6)\n\
 -O, --open-au          find number of open erase blocks\n\
     --open-au-nr=N     try N open erase blocks           (default:2)\n\
     --offset=N         start at position N\n\
+    --program          run program\n\
 -r, --random           use pseudorandom access with erase block\n\
 -v, --verbose          increase verbosity of output\n\
 -c, --count=N          run each test N times             (default:8)\n\
@@ -637,6 +641,7 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 		{ "open-au",        0, NULL, 'O' },
 		{ "open-au-nr",     1, NULL, '0' },
 		{ "offset",         1, NULL, 't' },
+		{ "program",        0, NULL, 'p' },
 		{ "random",         0, NULL, 'r' },
 		{ "verbose",        0, NULL, 'v' },
 		{ "count",          1, NULL, 'c' },
@@ -646,19 +651,19 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 	};
 
 	memset(args, 0, sizeof(*args));
-	args->count         = 8;
 	args->scatter_order = 9;
 	args->scatter_span  = 1;
-	args->blocksize     = 16384;
-	args->offset        = -1ull;
-	args->erasesize     = 4 * 1024 * 1024;
 	args->fat_nr        = 6;
 	args->open_au_nr    = 2;
+	args->offset        = -1ull;
+	args->count         = 8;
+	args->blocksize     = 16384;
+	args->erasesize     = 4 * 1024 * 1024;
 
 	while (1) {
 		int c;
 
-		c = getopt_long(argc, argv, "o:siafF:Ovrc:b:e:p", long_options, &optind);
+		c = getopt_long(argc, argv, "o:saifOrvc:b:e:", long_options, &optind);
 
 		if (c == -1)
 			break;
@@ -708,12 +713,16 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 			args->open_au_nr = atoi(optarg);
 			break;
 
-		case 'r':
-			args->random = 1;
+		case 't':
+			args->offset = strtoull(optarg, NULL, 0);
 			break;
 
 		case 'p':
 			args->program = 1;
+			break;
+
+		case 'r':
+			args->random = 1;
 			break;
 
 		case 'v':
@@ -730,10 +739,6 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 
 		case 'e':
 			args->erasesize = atoi(optarg);
-			break;
-
-		case 't':
-			args->offset = strtoull(optarg, NULL, 0);
 			break;
 
 		case '?':
