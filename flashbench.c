@@ -625,35 +625,35 @@ struct arguments {
 static int parse_arguments(int argc, char **argv, struct arguments *args)
 {
 	static const struct option long_options[] = {
-		{ "out", 1, NULL, 'o' },
-		{ "scatter", 0, NULL, 's' },
-		{ "scatter-order", 1, NULL, 'S' },
-		{ "scatter-span", 1, NULL, '$' },
-		{ "align", 0, NULL, 'a' },
-		{ "interval", 0, NULL, 'i' },
+		{ "out",            1, NULL, 'o' },
+		{ "scatter",        0, NULL, 's' },
+		{ "scatter-order",  1, NULL, 'S' },
+		{ "scatter-span",   1, NULL, '$' },
+		{ "align",          0, NULL, 'a' },
+		{ "interval",       0, NULL, 'i' },
 		{ "interval-order", 1, NULL, 'I' },
-		{ "find-fat", 0, NULL, 'f' },
-		{ "fat-nr", 1, NULL, 'F' },
-		{ "open-au", 0, NULL, 'O' },
-		{ "open-au-nr", 1, NULL, '0' },
-		{ "offset", 1, NULL, 't' },
-		{ "random", 0, NULL, 'r' },
-		{ "verbose", 0, NULL, 'v' },
-		{ "count", 1, NULL, 'c' },
-		{ "blocksize", 1, NULL, 'b' },
-		{ "erasesize", 1, NULL, 'e' },
-		{ NULL, 0, NULL, 0 },
+		{ "find-fat",       0, NULL, 'f' },
+		{ "fat-nr",         1, NULL, 'F' },
+		{ "open-au",        0, NULL, 'O' },
+		{ "open-au-nr",     1, NULL, '0' },
+		{ "offset",         1, NULL, 't' },
+		{ "random",         0, NULL, 'r' },
+		{ "verbose",        0, NULL, 'v' },
+		{ "count",          1, NULL, 'c' },
+		{ "blocksize",      1, NULL, 'b' },
+		{ "erasesize",      1, NULL, 'e' },
+		{ NULL,             0, NULL,  0  },
 	};
 
 	memset(args, 0, sizeof(*args));
-	args->count = 8;
+	args->count         = 8;
 	args->scatter_order = 9;
-	args->scatter_span = 1;
-	args->blocksize = 16384;
-	args->offset = -1ull;
-	args->erasesize = 4 * 1024 * 1024;
-	args->fat_nr = 6;
-	args->open_au_nr = 2;
+	args->scatter_span  = 1;
+	args->blocksize     = 16384;
+	args->offset        = -1ull;
+	args->erasesize     = 4 * 1024 * 1024;
+	args->fat_nr        = 6;
+	args->open_au_nr    = 2;
 
 	while (1) {
 		int c;
