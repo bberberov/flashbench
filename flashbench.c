@@ -607,6 +607,7 @@ run tests on DEVICE, pointing to a flash storage medium.\n\
 -c, --count=N          run each test N times             (default:8)\n\
 -b, --blocksize=N      use a blocksize of N            (default:16K)\n\
 -e, --erasesize=N      use a eraseblock size of N       (default:4M)\n\
+    --help             display this help and exit\n\
 ");
 }
 
@@ -647,6 +648,7 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 		{ "count",          1, NULL, 'c' },
 		{ "blocksize",      1, NULL, 'b' },
 		{ "erasesize",      1, NULL, 'e' },
+		{ "help",           0, NULL, 'h' },
 		{ NULL,             0, NULL,  0  },
 	};
 
@@ -739,6 +741,11 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 
 		case 'e':
 			args->erasesize = atoi(optarg);
+			break;
+
+		case 'h':
+			print_help(argv[0]);
+			exit(0);
 			break;
 
 		case '?':
