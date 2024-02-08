@@ -589,19 +589,32 @@ static void print_help(const char *name)
 "\n\
 run tests on DEVICE, pointing to a flash storage medium.\n\
 \n\
--o, --out=FILE         write output to FILE instead of stdout\n\
+Tests:\n\
 -s, --scatter          run scatter read test\n\
+                       additional options: --blocksize, --count\n\
     --scatter-order=N  scatter across 2^N blocks         (default:9)\n\
     --scatter-span=N   span each write across N blocks   (default:1)\n\
+-o, --out=FILE         write output to FILE instead of stdout\n\
+\n\
 -a, --align            run align read test\n\
+                       additional options: --blocksize, --count\n\
+\n\
 -i, --interval\n\
+                       additional options: --count\n\
     --interval-order=N\n\
+\n\
 -f, --find-fat         analyse first few erase blocks\n\
+                       additional options: --blocksize, --erasesize, --random\n\
     --fat-nr=N         look through first N erase blocks (default:6)\n\
+\n\
 -O, --open-au          find number of open erase blocks\n\
+                       additional options: --blocksize, --erasesize, --random\n\
     --open-au-nr=N     try N open erase blocks           (default:2)\n\
     --offset=N         start at position N\n\
+\n\
     --program          run program\n\
+\n\
+Options:\n\
 -r, --random           use pseudorandom access with erase block\n\
 -v, --verbose          increase verbosity of output\n\
 -c, --count=N          run each test N times             (default:8)\n\
@@ -630,10 +643,10 @@ struct arguments {
 static int parse_arguments(int argc, char **argv, struct arguments *args)
 {
 	static const struct option long_options[] = {
-		{ "out",            1, NULL, 'o' },
 		{ "scatter",        0, NULL, 's' },
 		{ "scatter-order",  1, NULL, 'S' },
 		{ "scatter-span",   1, NULL, '$' },
+		{ "out",            1, NULL, 'o' },
 		{ "align",          0, NULL, 'a' },
 		{ "interval",       0, NULL, 'i' },
 		{ "interval-order", 1, NULL, 'I' },
@@ -665,16 +678,12 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 	while (1) {
 		int c;
 
-		c = getopt_long(argc, argv, "o:saifOrvc:b:e:", long_options, &optind);
+		c = getopt_long(argc, argv, "so:aifOrvc:b:e:", long_options, &optind);
 
 		if (c == -1)
 			break;
 
 		switch (c) {
-		case 'o':
-			args->out = optarg;
-			break;
-
 		case 's':
 			args->scatter = 1;
 			break;
@@ -685,6 +694,10 @@ static int parse_arguments(int argc, char **argv, struct arguments *args)
 
 		case '$':
 			args->scatter_span = atoi(optarg);
+			break;
+
+		case 'o':
+			args->out = optarg;
 			break;
 
 		case 'a':
